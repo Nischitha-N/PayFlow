@@ -1,0 +1,49 @@
+{
+  "name": "payflow",
+  "version": "1.0.0",
+  "description": "PayFlow — Payment QA Automation Framework",
+  "main": "dist/app/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx src/app/server.ts",
+    "verify:db": "tsx src/test/scripts/verify-db.ts",
+    "verify:api": "tsx src/test/scripts/verify-api.ts",
+    "verify:ui": "tsx src/test/scripts/verify-ui.ts",
+    "test:playwright": "cross-env DATABASE_PATH=./data/payflow.test.db playwright test",
+    "test:playwright:api": "cross-env DATABASE_PATH=./data/payflow.test.db playwright test src/test/playwright/api",
+    "test:playwright:ui": "cross-env DATABASE_PATH=./data/payflow.test.db playwright test src/test/playwright/ui",
+    "test:playwright:headed": "cross-env DATABASE_PATH=./data/payflow.test.db playwright test --headed",
+    "test:cucumber": "cross-env DATABASE_PATH=./data/payflow.test.db cucumber-js",
+    "test": "npm run test:playwright && npm run test:cucumber"
+  },
+  "keywords": [
+    "qa",
+    "automation",
+    "playwright",
+    "cucumber",
+    "bdd",
+    "express",
+    "sqlite",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.2.0",
+    "@playwright/test": "^1.50.1",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "cross-env": "^7.0.3",
+    "playwright": "^1.50.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "default": {
+    "paths": ["src/test/cucumber/features/**/*.feature"],
+    "requireModule": ["tsx"],
+    "require": [
+      "src/test/cucumber/support/**/*.ts",
+      "src/test/cucumber/steps/**/*.ts"
+    ],
+    "format": [
+      "summary",
+      "html:cucumber-report.html"
+    ]
+  }
+}

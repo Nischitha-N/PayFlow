@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Production output
+dist/
+
+# Test reports & traces
+playwright-report/
+test-results/
+cucumber-report.html
+
+# Database files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+data/
+
+# Environment files
+.env
+.env.local
+
+# Operating System files
+Thumbs.db
+.DS_Store

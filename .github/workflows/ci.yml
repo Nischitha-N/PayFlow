@@ -1,0 +1,68 @@
+name: PayFlow CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Build, Verify & Test
+    runs-on: ubuntu-latest
+
+    env:
+      PORT: 3000
+      API_KEY: ci_secret_test_key_2026
+      DATABASE_PATH: ./data/payflow.test.db
+      NODE_ENV: test
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium browser and OS dependencies
+        run: npx playwright install --with-deps chromium
+
+      - name: Compile TypeScript
+        run: npm run build
+
+      - name: Verify SQLite Database Layer & Idempotency
+        run: npm run verify:db
+
+      - name: Verify Express REST API (Real HTTP Integration)
+        run: npm run verify:api
+
+      - name: Verify Web UI Static Hosting & Monetary Logic
+        run: npm run verify:ui
+
+      - name: Run Playwright Test Suite (API + UI)
+        run: npm run test:playwright
+
+      - name: Run Cucumber.js BDD Acceptance Suite
+        run: npm run test:cucumber
+
+      - name: Upload Playwright HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload Cucumber HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-report
+          path: cucumber-report.html
+          retention-days: 14
